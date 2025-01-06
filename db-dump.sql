@@ -37,22 +37,56 @@ CREATE TABLE `Cities` (
 LOCK TABLES `Cities` WRITE;
 /*!40000 ALTER TABLE `Cities` DISABLE KEYS */;
 INSERT INTO `Cities` VALUES
-('1','Budapest'),
-('10','Tihany'),
-('11','Balaton'),
-('12','Pécs'),
-('13','Gyula'),
-('14','Győr'),
-('15','Tatabánya'),
-('2','Debrecen'),
-('3','Sopron'),
-('4','Miskolc'),
-('5','Eger'),
-('6','Bélapátfalva'),
-('7','Ózd'),
-('8','Szilvásvárad'),
-('9','Székesfehérvár');
+('egy','Budapest'),
+('három','Sopron'),
+('hat','Bélapátfalva'),
+('hét','Ózd'),
+('kettő','Debrecen'),
+('kilenc','Székesfehérvár'),
+('négy','Miskolc'),
+('nyolc','Szilvásvárad'),
+('öt','Eger'),
+('tíz','Tihany'),
+('tizenegy','Balaton'),
+('tizenhárom','Gyula'),
+('tizenkettő','Pécs'),
+('tizennégy','Győr'),
+('tizenöt','Tatabánya');
 /*!40000 ALTER TABLE `Cities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Winds`
+--
+
+DROP TABLE IF EXISTS `Winds`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Winds` (
+  `city_id` varchar(16) NOT NULL,
+  `date` varchar(12) NOT NULL,
+  `hour` tinyint(2) unsigned NOT NULL,
+  `wind_magnitude` decimal(4,1) unsigned NOT NULL,
+  `wind_direction` varchar(3) NOT NULL,
+  PRIMARY KEY (`city_id`,`date`,`hour`),
+  CONSTRAINT `fk_city_id` FOREIGN KEY (`city_id`) REFERENCES `Cities` (`id`),
+  CONSTRAINT `ck_hour` CHECK (`hour` between 0 and 23),
+  CONSTRAINT `ck_wind_direction` CHECK (`wind_direction` in ('E','K','D','NY','EK','DK','DNY','ENY')),
+  CONSTRAINT `ck_date` CHECK (`date` regexp '^[0-9]+\\.[0-9]{2}\\.[0-9]{2}$')
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Winds`
+--
+
+LOCK TABLES `Winds` WRITE;
+/*!40000 ALTER TABLE `Winds` DISABLE KEYS */;
+INSERT INTO `Winds` VALUES
+('egy','2025.01.06',1,14.9,'ENY'),
+('egy','2025.01.06',2,14.8,'E'),
+('egy','2025.01.06',3,900.0,'D');
+/*!40000 ALTER TABLE `Winds` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -64,3 +98,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
+-- Dump completed on 2025-01-06 18:40:12
