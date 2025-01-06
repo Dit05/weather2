@@ -1,0 +1,222 @@
+openapi: 3.0.1
+info:
+  title: Időjárás 2
+  description: Müller Krisztián Norbert (W1LJID) SzOP beadandója
+  version: 1.0.0
+externalDocs:
+  description: Tudj meg többet a Swaggerről
+  url: http://swagger.io
+servers:
+- url: https://localhost:3000
+- url: http://localhost:3000
+tags:
+- name: Helység
+  description: Földrajzi helységekkel kapcsolatos
+- name: Szél
+  description: Széllel kapcsolatos
+- name: Lekérdezések
+  description: A kért lekérdezések
+paths:
+  /cities:
+    get:
+      tags:
+      - Helység
+      summary: Városok listája
+      description: Visszaadja minden város azonosítóját (nem numerikus) és nevét
+      responses:
+        "200":
+          description: Sikerült
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/City'
+  /wind/{cityId}/{date}/{hour}:
+    parameters:
+      - $ref: '#/components/parameters/cityId'
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/hour'
+    get:
+      tags:
+      - Szél
+      summary: Szél megkapása
+      description: Visszaadja ezt a szelet
+      responses:
+        "200":
+          description: Sikerült
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wind'
+        "400":
+          description: Valamelyik paraméter nem érvényes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Az adott városban ezen dátum megadott órájában nincs adat, vagy egyszerűen nincs ilyen város, vagy valamit érvénytelenül adtál meg
+          content: {}
+    put:
+      tags:
+      - Szél
+      summary: Szél beállítása
+      description: Beállítja ezt a szelet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Wind'
+      responses:
+        "200":
+          description: Sikerült
+          content: {}
+        "400":
+          description: Rossz bemenet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Nincs is ilyen város
+          content: {}
+    delete:
+      tags:
+      - Szél
+      summary: Szél törlése
+      description: Törli ezt a szelet
+      responses:
+        "200":
+          description: Sikerült
+          content: {}
+        "400":
+          description: Rossz bemenet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Nincs is ilyen város vagy dátum vagy óra vagy szél
+          content: {}
+  /wind/{cityId}/{date}/hourly:
+    parameters:
+      - $ref: '#/components/parameters/cityId'
+      - $ref: '#/components/parameters/date'
+    get:
+      tags:
+      - Lekérdezések
+      summary: Óránkénti szélerősségek
+      description: Megadja a szélerősségeket minden órában
+      responses:
+        "200":
+          description: Sikerült
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 24
+                maxItems: 24
+                items:
+                  type: number
+                  description: Szélerősség km/h-ban, vagy undefined ha nincs ekkor adat
+                  nullable: true
+                example: [undefined, undefined, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.9, 15.0, 16.0, 17.0, 18.0, 19.0, undefined, undefined, undefined, undefined, undefined]
+        "404":
+          description: Nincs is ilyen város
+          content: {}
+  /wind/{cityId}/today/{hour}:
+    parameters:
+      - $ref: '#/components/parameters/cityId'
+      - $ref: '#/components/parameters/hour'
+    get:
+      tags:
+      - Lekérdezések
+      summary: Szélinformáció a mai nap egy órájában
+      description: Megadja a szelet a mai nap megadott órájában
+      responses:
+        "200":
+          description: Sikerült
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wind'
+        "400":
+          description: Rossz bemenet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: Nincs is ilyen város
+          content: {}
+components:
+  parameters:
+    cityId:
+      name: cityId
+      in: path
+      description: Város azonosítója
+      required: true
+      schema:
+        type: string
+        example: negyvenkétezerezerhatvankilenc
+    date:
+      name: date
+      in: path
+      description: Valamely dátum é.HH.NN formátumban
+      required: true
+      schema:
+        type: string
+        pattern: ^[1-9]\d*\.\d{2}\.\d{2}$
+        example: 2025.01.08
+    hour:
+      name: hour
+      in: path
+      description: A nap valamely órája
+      required: true
+      schema:
+        maximum: 23
+        minimum: 0
+        type: integer
+        example: 9
+  schemas:
+    City:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "A város azonosítója (nem numerikus)"
+          example: hét
+        name:
+          type: string
+          description: "Ahogy a várost hívják"
+          example: Ózd
+    Wind:
+      type: object
+      properties:
+        magnitude:
+          type: number
+          multipleOf: 0.1
+          maximum: 999.9
+          minimum: 0
+          description: "A szél ereje km/h-ban, 0 és 999 között, 1 tizedes jeggyel"
+          example: 14.9
+        direction:
+          type: string
+          description: "Előttem van észak, hátam mögött dél. Balra a nap nyugszik, jobbra pedig kél. Az `EK` nem evőkanalat jelent."
+          enum:
+          - E
+          - K
+          - D
+          - NY
+          - EK
+          - DK
+          - DNY
+          - ENY
+    Error:
+      type: object
+      properties:
+        what:
+          type: string
+          description: "A probléma leírása"
+          example: "Hülye vagy"

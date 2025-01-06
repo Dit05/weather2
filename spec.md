@@ -1,5 +1,5 @@
 Nooooooooooooode.js RESTful alkalmazást kell készítenie.
-`localhost:3000/temperature`
+`localhost:3000/wind`
 
 Az adatbázisban van 2 tábla, az egyikben a helység neve és kódja van, pl. 1 Eger, 2 Heves, 3 Budapest, stb.
 Ne numerikus legyen a kód.
