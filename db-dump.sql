@@ -85,7 +85,13 @@ LOCK TABLES `Winds` WRITE;
 INSERT INTO `Winds` VALUES
 ('egy','2025.01.06',1,14.9,'ENY'),
 ('egy','2025.01.06',2,14.8,'E'),
-('egy','2025.01.06',3,900.0,'D');
+('egy','2025.01.06',3,900.0,'D'),
+('egy','2025.01.08',0,1.0,'E'),
+('egy','2025.01.08',1,14.9,'E'),
+('egy','2025.01.08',2,15.0,'E'),
+('egy','2025.01.08',3,12.1,'EK'),
+('egy','2025.01.08',4,123.5,'EK'),
+('kettő','2025.01.07',23,1.0,'EK');
 /*!40000 ALTER TABLE `Winds` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -98,4 +104,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-01-06 18:40:12
+-- Dump completed on 2025-01-07 21:07:41

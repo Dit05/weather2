@@ -98,7 +98,7 @@ paths:
         "404":
           description: Nincs is ilyen város vagy dátum vagy óra vagy szél
           content: {}
-  /wind/{cityId}/{date}/hourly:
+  /wind/queries/hourly/{cityId}/{date}:
     parameters:
       - $ref: '#/components/parameters/cityId'
       - $ref: '#/components/parameters/date'
@@ -118,13 +118,10 @@ paths:
                 maxItems: 24
                 items:
                   type: number
-                  description: Szélerősség km/h-ban, vagy undefined ha nincs ekkor adat
+                  description: Szélerősség km/h-ban, vagy null ha nincs ekkor adat
                   nullable: true
-                example: [undefined, undefined, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.9, 15.0, 16.0, 17.0, 18.0, 19.0, undefined, undefined, undefined, undefined, undefined]
-        "404":
-          description: Nincs is ilyen város
-          content: {}
-  /wind/{cityId}/today/{hour}:
+                example: [null, null, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.9, 15.0, 16.0, 17.0, 18.0, 19.0, null, null, null, null, null]
+  /wind/queries/today/{cityId}/{hour}:
     parameters:
       - $ref: '#/components/parameters/cityId'
       - $ref: '#/components/parameters/hour'
@@ -147,7 +144,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         "404":
-          description: Nincs is ilyen város
+          description: Nincs is ilyen város vagy nincs adat ebben az órában
           content: {}
 components:
   parameters:
@@ -218,4 +215,4 @@ components:
         what:
           type: string
           description: "A probléma leírása"
-          example: "Hülye vagy"
+          example: "Nem sikerült, mert blablabla undefined [object Object] NaN"
