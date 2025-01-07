@@ -1,0 +1,7 @@
+{
+  "host": "localhost",
+  "user": "w1ljid",
+  "password": "my_password",
+  "connectionLimit": 5,
+  "trace": true
+}
