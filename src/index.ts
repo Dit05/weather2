@@ -1,9 +1,13 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import * as fs from 'node:fs';
 import * as mysql from 'mariadb';
 import * as db from './db.js';
 
+
+
+const keys: string[] = JSON.parse(fs.readFileSync('keys.json', { encoding: 'utf8' })).keys;
 
 const app = express();
 
@@ -88,6 +92,12 @@ app.get('/wind/:cityId/:date/:hour', async (req, res) => {
 });
 
 app.put('/wind/:cityId/:date/:hour', async (req, res) => {
+  if(!keys.includes(req.headers.authorization ?? "")) {
+    res.statusCode = 401;
+    res.end();
+    return;
+  }
+
   if(isNaN(Number(req.params.hour)) || Number(req.params.hour) < 0 || Number(req.params.hour) > 23) {
     res.statusCode = 400;
     res.json(createError('Invalid hour'));
@@ -112,6 +122,12 @@ app.put('/wind/:cityId/:date/:hour', async (req, res) => {
 });
 
 app.delete('/wind/:cityId/:date/:hour', async (req, res) => {
+  if(!keys.includes(req.headers.authorization ?? "")) {
+    res.statusCode = 401;
+    res.end();
+    return;
+  }
+
   if(isNaN(Number(req.params.hour)) || Number(req.params.hour) < 0 || Number(req.params.hour) > 23) {
     res.statusCode = 400;
     res.json(createError('Invalid hour'));
@@ -139,7 +155,7 @@ app.delete('/wind/:cityId/:date/:hour', async (req, res) => {
 
 
 app.get('/wind/queries/hourly/:cityId/:date', async (req, res) => {
-  let result: [any];
+  let result: any[];
   const conn: mysql.Connection = await db.getConnection();
   try {
     result = await conn.query(
