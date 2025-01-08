@@ -168,7 +168,7 @@ components:
       required: true
       schema:
         type: string
-        example: negyvenkétezerezerhatvankilenc
+        example: hatvankilenc
     date:
       name: date
       in: path
