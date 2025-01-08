@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Időjárás 2
-  description: Müller Krisztián Norbert (W1LJID) SzOP beadandója
+  description: Müller Krisztián Norbert (W1LJID) SzoP beadandója
   version: 1.0.0
 externalDocs:
   description: Tudj meg többet a Swaggerről
