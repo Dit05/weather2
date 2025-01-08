@@ -1,9 +1,9 @@
 /*M!999999\- enable the sandbox mode */ 
--- MariaDB dump 10.19-11.6.2-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19-11.5.2-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: weather
 -- ------------------------------------------------------
--- Server version	11.6.2-MariaDB
+-- Server version	11.5.2-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -91,6 +91,8 @@ INSERT INTO `Winds` VALUES
 ('egy','2025.01.08',2,15.0,'E'),
 ('egy','2025.01.08',3,12.1,'EK'),
 ('egy','2025.01.08',4,123.5,'EK'),
+('egy','2025.01.08',9,14.9,'E'),
+('egy','2025.01.08',11,14.9,'E'),
 ('kettő','2025.01.07',23,1.0,'EK');
 /*!40000 ALTER TABLE `Winds` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -104,4 +106,3 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-01-07 21:07:41
